@@ -26,6 +26,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase, type Document } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
@@ -166,10 +167,10 @@ const Upload = () => {
         const { data: newDoc, error } = await supabase
           .from('documents')
           .insert({
-            title: file.name.replace(/\.[^/.]+$/, ""), // Remove extension
+            title: manualDoc.title || file.name.replace(/\.[^/.]+$/, ""), // Use provided title or filename
             content,
-            category: 'POS', // Default category
-            tags: [],
+            category: manualDoc.category || 'POS', // Use provided category or default
+            tags: manualDoc.tags ? manualDoc.tags.split(',').map(tag => tag.trim()).filter(Boolean) : [],
             file_type: fileType,
             created_by: profile?.id
           })
@@ -207,6 +208,11 @@ const Upload = () => {
           title: "Document uploaded successfully",
           description: `${file.name} has been processed and is ready for use.`
         });
+
+        // Clear form fields after successful upload
+        if (manualDoc.title || manualDoc.category || manualDoc.tags) {
+          setManualDoc({ title: '', category: '', tags: '', content: '' });
+        }
 
       } catch (error) {
         console.error('Upload error:', error);
@@ -398,7 +404,43 @@ const Upload = () => {
                   File Upload
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-6">
+                {/* Upload Form Fields */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <Label htmlFor="upload-title">Document Title</Label>
+                    <Input
+                      id="upload-title"
+                      placeholder="Enter document title..."
+                      value={manualDoc.title}
+                      onChange={(e) => setManualDoc(prev => ({ ...prev, title: e.target.value }))}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="upload-category">Category</Label>
+                    <Select value={manualDoc.category} onValueChange={(value) => setManualDoc(prev => ({ ...prev, category: value }))}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {CATEGORIES.map(cat => (
+                          <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="upload-tags">Tags (comma-separated)</Label>
+                    <Input
+                      id="upload-tags"
+                      placeholder="e.g., training, procedures, refunds"
+                      value={manualDoc.tags}
+                      onChange={(e) => setManualDoc(prev => ({ ...prev, tags: e.target.value }))}
+                    />
+                  </div>
+                </div>
+
+                {/* Drag & Drop Area */}
                 <div
                   {...getRootProps()}
                   className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-200 ${
@@ -418,6 +460,9 @@ const Upload = () => {
                       </p>
                       <p className="text-muted-foreground text-sm">
                         Supports: {Object.keys(FILE_EXTENSIONS).join(', ')} (max 10MB each)
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-2">
+                        Fill in the title and category above before uploading, or they will use defaults
                       </p>
                     </div>
                   )}
@@ -575,50 +620,124 @@ const Upload = () => {
                       {searchTerm || selectedCategory !== 'all' ? 'No documents match your search criteria' : 'No documents uploaded yet'}
                     </p>
                   </div>
-                ) : (
-                  <div className="space-y-4">
-                    {filteredDocuments.map(doc => (
-                      <div key={doc.id} className="border border-border rounded-lg p-4">
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1 min-w-0">
-                            <h4 className="font-semibold text-foreground truncate">{doc.title}</h4>
-                            <div className="flex items-center gap-2 mt-2 flex-wrap">
-                              <Badge variant="outline">{doc.category}</Badge>
-                              <Badge variant="secondary" className="text-xs">{doc.file_type}</Badge>
-                              {doc.tags.map(tag => (
-                                <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
-                              ))}
+                 ) : (
+                   <>
+                     <div className="hidden md:block">
+                     <Table>
+                       <TableHeader>
+                         <TableRow>
+                           <TableHead>Title</TableHead>
+                           <TableHead>Category</TableHead>
+                           <TableHead>Tags</TableHead>
+                           <TableHead>File Type</TableHead>
+                           <TableHead>Upload Date</TableHead>
+                           <TableHead className="text-right">Actions</TableHead>
+                         </TableRow>
+                       </TableHeader>
+                       <TableBody>
+                         {filteredDocuments.map(doc => (
+                           <TableRow key={doc.id}>
+                             <TableCell className="font-medium max-w-xs">
+                               <div className="truncate" title={doc.title}>
+                                 {doc.title}
+                               </div>
+                             </TableCell>
+                             <TableCell>
+                               <Badge variant="outline">{doc.category}</Badge>
+                             </TableCell>
+                             <TableCell>
+                               <div className="flex flex-wrap gap-1 max-w-xs">
+                                 {doc.tags.slice(0, 2).map(tag => (
+                                   <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
+                                 ))}
+                                 {doc.tags.length > 2 && (
+                                   <Badge variant="secondary" className="text-xs">+{doc.tags.length - 2}</Badge>
+                                 )}
+                               </div>
+                             </TableCell>
+                             <TableCell>
+                               <Badge variant="secondary" className="text-xs">{doc.file_type}</Badge>
+                             </TableCell>
+                             <TableCell className="text-muted-foreground text-sm">
+                               {new Date(doc.created_at).toLocaleDateString()}
+                             </TableCell>
+                             <TableCell className="text-right">
+                               <div className="flex gap-2 justify-end">
+                                 <Button
+                                   variant="outline"
+                                   size="sm"
+                                   onClick={() => setEditingDoc({
+                                     id: doc.id,
+                                     title: doc.title,
+                                     category: doc.category,
+                                     tags: doc.tags.join(', ')
+                                   })}
+                                 >
+                                   <Edit2 className="w-4 h-4" />
+                                 </Button>
+                                 <Button
+                                   variant="destructive"
+                                   size="sm"
+                                   onClick={() => setDeleteDoc(doc)}
+                                 >
+                                   <Trash2 className="w-4 h-4" />
+                                 </Button>
+                               </div>
+                             </TableCell>
+                           </TableRow>
+                         ))}
+                       </TableBody>
+                     </Table>
+                   </div>
+                   
+                   {/* Mobile Card View */}
+                   <div className="md:hidden space-y-4">
+                     {filteredDocuments.map(doc => (
+                       <div key={doc.id} className="border border-border rounded-lg p-4">
+                         <div className="flex items-start justify-between">
+                           <div className="flex-1 min-w-0">
+                             <h4 className="font-semibold text-foreground truncate">{doc.title}</h4>
+                             <div className="flex items-center gap-2 mt-2 flex-wrap">
+                               <Badge variant="outline">{doc.category}</Badge>
+                               <Badge variant="secondary" className="text-xs">{doc.file_type}</Badge>
+                               {doc.tags.slice(0, 2).map(tag => (
+                                 <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
+                               ))}
+                               {doc.tags.length > 2 && (
+                                 <Badge variant="secondary" className="text-xs">+{doc.tags.length - 2}</Badge>
+                               )}
+                             </div>
+                             <p className="text-sm text-muted-foreground mt-2">
+                               Created: {new Date(doc.created_at).toLocaleDateString()}
+                             </p>
+                           </div>
+                           <div className="flex flex-col gap-2 ml-4">
+                             <Button
+                               variant="outline"
+                               size="sm"
+                               onClick={() => setEditingDoc({
+                                 id: doc.id,
+                                 title: doc.title,
+                                 category: doc.category,
+                                 tags: doc.tags.join(', ')
+                               })}
+                             >
+                               <Edit2 className="w-4 h-4" />
+                             </Button>
+                             <Button
+                               variant="destructive"
+                               size="sm"
+                               onClick={() => setDeleteDoc(doc)}
+                             >
+                               <Trash2 className="w-4 h-4" />
+                             </Button>
                             </div>
-                            <p className="text-sm text-muted-foreground mt-2">
-                              Created: {new Date(doc.created_at).toLocaleDateString()}
-                            </p>
-                          </div>
-                          <div className="flex gap-2 ml-4">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => setEditingDoc({
-                                id: doc.id,
-                                title: doc.title,
-                                category: doc.category,
-                                tags: doc.tags.join(', ')
-                              })}
-                            >
-                              <Edit2 className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => setDeleteDoc(doc)}
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
                           </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                      ))}
+                    </div>
+                   </>
+                 )}
               </CardContent>
             </Card>
           </TabsContent>
