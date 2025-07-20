@@ -137,7 +137,7 @@ const Chat = () => {
                       type="submit" 
                       size="icon" 
                       disabled={!inputValue.trim() || isTyping}
-                      className="mr-4 h-10 w-10 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white disabled:opacity-50 rounded-xl transition-all duration-200 shadow-lg"
+                      className="mr-4 h-10 w-10 bg-primary hover:bg-primary/90 text-white disabled:opacity-50 rounded-lg transition-all duration-200 shadow-lg shadow-primary/25 hover:shadow-primary/40"
                     >
                       <Send className="w-5 h-5" />
                     </Button>
