@@ -5,6 +5,7 @@ import { MessageCircle, Upload, LogIn, LogOut, History, Settings, Menu, X, Bot, 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/contexts/AuthContext";
+import AdminBadge from "./AdminBadge";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,11 +58,7 @@ const Navigation = () => {
               >
                 <Icon className="w-4 h-4" />
                 <span className="text-sm font-medium">{label}</span>
-                {adminOnly && (
-                  <span className="text-xs bg-secondary text-secondary-foreground px-1.5 py-0.5 rounded">
-                    Admin
-                  </span>
-                )}
+                {adminOnly && <AdminBadge role="content_admin" size="sm" />}
               </NavLink>
             ))}
             
@@ -73,11 +70,7 @@ const Navigation = () => {
                   <span className="text-muted-foreground">
                     {user.email}
                   </span>
-                  {isAdmin && (
-                    <span className="text-xs bg-primary text-primary-foreground px-1.5 py-0.5 rounded">
-                      Admin
-                    </span>
-                  )}
+                  {profile && <AdminBadge role={profile.role} size="sm" />}
                 </div>
                 <Button variant="ghost" size="sm" onClick={handleSignOut}>
                   <LogOut className="w-4 h-4" />
@@ -139,11 +132,7 @@ const Navigation = () => {
                     >
                       <Icon className="w-5 h-5" />
                       <span className="font-medium">{label}</span>
-                      {adminOnly && (
-                        <span className="text-xs bg-secondary text-secondary-foreground px-1.5 py-0.5 rounded ml-auto">
-                          Admin
-                        </span>
-                      )}
+                      {adminOnly && <AdminBadge role="content_admin" size="sm" />}
                     </NavLink>
                   ))}
                   
@@ -156,11 +145,7 @@ const Navigation = () => {
                           <span className="font-medium text-foreground block">
                             {user.email}
                           </span>
-                          {isAdmin && (
-                            <span className="text-xs bg-primary text-primary-foreground px-1.5 py-0.5 rounded">
-                              Admin
-                            </span>
-                          )}
+                          {profile && <AdminBadge role={profile.role} size="sm" />}
                         </div>
                       </div>
                       <Button 
