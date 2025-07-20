@@ -30,15 +30,15 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+    <nav className="border-b border-[#333] bg-[#1a1a1a] sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <NavLink to="/" className="flex items-center gap-2">
-            <Bot className="w-6 h-6 text-primary" />
+            <Bot className="w-6 h-6 text-[#00ffff]" />
             <div>
-              <span className="text-xl font-bold text-foreground">ShiftIQ</span>
-              <p className="text-xs text-muted-foreground">by MuleKick</p>
+              <span className="text-xl font-bold text-white">ShiftIQ</span>
+              <p className="text-xs text-[#a0a0a0]">by MuleKick</p>
             </div>
           </NavLink>
 
@@ -49,10 +49,10 @@ const Navigation = () => {
                 key={to}
                 to={to}
                 className={({ isActive }) =>
-                  `flex items-center gap-2 px-4 py-2 rounded-lg transition-smooth ${
+                  `flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                     isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                      ? "bg-[#00ffff] text-black"
+                      : "text-[#a0a0a0] hover:text-white hover:bg-[#2a2a2a]"
                   }`
                 }
               >
@@ -67,12 +67,17 @@ const Navigation = () => {
               <div className="flex items-center gap-2 ml-2">
                 <div className="flex items-center gap-2 px-3 py-2 text-sm">
                   <User className="w-4 h-4" />
-                  <span className="text-muted-foreground">
+                  <span className="text-[#a0a0a0]">
                     {user.email}
                   </span>
                   {profile && <AdminBadge role={profile.role} size="sm" />}
                 </div>
-                <Button variant="ghost" size="sm" onClick={handleSignOut}>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleSignOut}
+                  className="text-[#a0a0a0] hover:text-white hover:bg-[#2a2a2a]"
+                >
                   <LogOut className="w-4 h-4" />
                   <span className="ml-2">Sign Out</span>
                 </Button>
@@ -81,10 +86,10 @@ const Navigation = () => {
               <NavLink
                 to="/login"
                 className={({ isActive }) =>
-                  `flex items-center gap-2 px-4 py-2 rounded-lg transition-smooth ${
+                  `flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                     isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                      ? "bg-[#00ffff] text-black"
+                      : "text-[#a0a0a0] hover:text-white hover:bg-[#2a2a2a]"
                   }`
                 }
               >
@@ -98,20 +103,25 @@ const Navigation = () => {
           <div className="md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="text-[#a0a0a0] hover:text-white hover:bg-[#2a2a2a]">
                   <Menu className="w-5 h-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-64">
+              <SheetContent side="right" className="w-64 bg-[#1a1a1a] border-[#333]">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
-                    <Bot className="w-6 h-6 text-primary" />
+                    <Bot className="w-6 h-6 text-[#00ffff]" />
                     <div>
-                      <span className="text-lg font-bold text-foreground">ShiftIQ</span>
-                      <p className="text-xs text-muted-foreground">by MuleKick</p>
+                      <span className="text-lg font-bold text-white">ShiftIQ</span>
+                      <p className="text-xs text-[#a0a0a0]">by MuleKick</p>
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm" onClick={closeSheet}>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={closeSheet}
+                    className="text-[#a0a0a0] hover:text-white hover:bg-[#2a2a2a]"
+                  >
                     <X className="w-4 h-4" />
                   </Button>
                 </div>
@@ -123,10 +133,10 @@ const Navigation = () => {
                       to={to}
                       onClick={closeSheet}
                       className={({ isActive }) =>
-                        `flex items-center gap-3 px-3 py-3 rounded-lg transition-smooth w-full ${
+                        `flex items-center gap-3 px-3 py-3 rounded-lg transition-colors w-full ${
                           isActive
-                            ? "bg-primary text-primary-foreground"
-                            : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                            ? "bg-[#00ffff] text-black"
+                            : "text-[#a0a0a0] hover:text-white hover:bg-[#2a2a2a]"
                         }`
                       }
                     >
@@ -139,10 +149,10 @@ const Navigation = () => {
                   {/* Mobile Auth */}
                   {user ? (
                     <>
-                      <div className="flex items-center gap-2 px-3 py-3 border-t border-border mt-4 pt-4">
+                      <div className="flex items-center gap-2 px-3 py-3 border-t border-[#333] mt-4 pt-4">
                         <User className="w-5 h-5" />
                         <div className="flex-1">
-                          <span className="font-medium text-foreground block">
+                          <span className="font-medium text-white block">
                             {user.email}
                           </span>
                           {profile && <AdminBadge role={profile.role} size="sm" />}
@@ -150,7 +160,7 @@ const Navigation = () => {
                       </div>
                       <Button 
                         variant="ghost" 
-                        className="w-full justify-start px-3 py-3 h-auto"
+                        className="w-full justify-start px-3 py-3 h-auto text-[#a0a0a0] hover:text-white hover:bg-[#2a2a2a]"
                         onClick={handleSignOut}
                       >
                         <LogOut className="w-5 h-5" />
@@ -162,10 +172,10 @@ const Navigation = () => {
                       to="/login"
                       onClick={closeSheet}
                       className={({ isActive }) =>
-                        `flex items-center gap-3 px-3 py-3 rounded-lg transition-smooth w-full ${
+                        `flex items-center gap-3 px-3 py-3 rounded-lg transition-colors w-full ${
                           isActive
-                            ? "bg-primary text-primary-foreground"
-                            : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                            ? "bg-[#00ffff] text-black"
+                            : "text-[#a0a0a0] hover:text-white hover:bg-[#2a2a2a]"
                         }`
                       }
                     >
