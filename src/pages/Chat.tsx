@@ -98,7 +98,7 @@ const Chat = () => {
                 <h1 className="text-foreground text-3xl font-semibold tracking-tight">
                   How can I assist you today?
                 </h1>
-                <p className="text-xl text-muted-foreground font-normal max-w-2xl">
+                <p className="text-base text-muted-foreground/70 font-normal max-w-2xl">
                   Your intelligent shift assistant. Ask me anything about MuleKick operations.
                 </p>
               </div>
