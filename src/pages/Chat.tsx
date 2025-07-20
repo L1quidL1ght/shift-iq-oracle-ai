@@ -95,7 +95,7 @@ const Chat = () => {
               
               {/* Large Greeting Text */}
               <div className="text-center space-y-4">
-                <h1 className="text-foreground text-5xl font-semibold tracking-tight">
+                <h1 className="text-foreground text-3xl font-semibold tracking-tight">
                   How can I assist you today?
                 </h1>
                 <p className="text-xl text-muted-foreground font-normal max-w-2xl">
