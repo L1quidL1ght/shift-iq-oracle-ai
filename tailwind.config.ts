@@ -68,7 +68,6 @@ export default {
 				// Chat-specific colors for the new design
 				'user-message': '218 89% 61%', // #3B82F6 - Light blue for user messages
 				'assistant-message': '210 11% 15%', // #1F2937 - Dark gray for assistant messages
-			}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
