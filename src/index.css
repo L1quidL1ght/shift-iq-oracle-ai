@@ -2,66 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 213 15% 6%;
-    --foreground: 180 100% 90%;
-    --card: 213 15% 8%;
-    --card-foreground: 180 100% 90%;
-    --popover: 213 15% 8%;
-    --popover-foreground: 180 100% 90%;
-    --primary: 178 100% 49%;
-    --primary-foreground: 213 15% 6%;
-    --secondary: 25 100% 55%;
-    --secondary-foreground: 213 15% 6%;
-    --muted: 213 15% 12%;
-    --muted-foreground: 180 10% 65%;
-    --accent: 178 100% 49%;
-    --accent-foreground: 213 15% 6%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 180 100% 90%;
-    --border: 213 15% 15%;
-    --input: 213 15% 12%;
-    --ring: 178 100% 49%;
-    --radius: 0.75rem;
-  }
-  
-  .dark {
-    --background: 213 15% 6%;
-    --foreground: 180 100% 90%;
-    --card: 213 15% 8%;
-    --card-foreground: 180 100% 90%;
-    --popover: 213 15% 8%;
-    --popover-foreground: 180 100% 90%;
-    --primary: 178 100% 49%;
-    --primary-foreground: 213 15% 6%;
-    --secondary: 25 100% 55%;
-    --secondary-foreground: 213 15% 6%;
-    --muted: 213 15% 12%;
-    --muted-foreground: 180 10% 65%;
-    --accent: 178 100% 49%;
-    --accent-foreground: 213 15% 6%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 180 100% 90%;
-    --border: 213 15% 15%;
-    --input: 213 15% 12%;
-    --ring: 178 100% 49%;
-  }
-
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', 'SF Pro Display', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-weight: 400;
-    line-height: 1.5;
-  }
+:root {
+  --background: 213 15% 6%;
+  --foreground: 180 100% 90%;
+  --card: 213 15% 8%;
+  --card-foreground: 180 100% 90%;
+  --popover: 213 15% 8%;
+  --popover-foreground: 180 100% 90%;
+  --primary: 178 100% 49%;
+  --primary-foreground: 213 15% 6%;
+  --secondary: 25 100% 55%;
+  --secondary-foreground: 213 15% 6%;
+  --muted: 213 15% 12%;
+  --muted-foreground: 180 10% 65%;
+  --accent: 178 100% 49%;
+  --accent-foreground: 213 15% 6%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 180 100% 90%;
+  --border: 213 15% 15%;
+  --input: 213 15% 12%;
+  --ring: 178 100% 49%;
+  --radius: 0.75rem;
 }
 
-@layer utilities {
-  .transition-smooth {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+.dark {
+  --background: 213 15% 6%;
+  --foreground: 180 100% 90%;
+  --card: 213 15% 8%;
+  --card-foreground: 180 100% 90%;
+  --popover: 213 15% 8%;
+  --popover-foreground: 180 100% 90%;
+  --primary: 178 100% 49%;
+  --primary-foreground: 213 15% 6%;
+  --secondary: 25 100% 55%;
+  --secondary-foreground: 213 15% 6%;
+  --muted: 213 15% 12%;
+  --muted-foreground: 180 10% 65%;
+  --accent: 178 100% 49%;
+  --accent-foreground: 213 15% 6%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 180 100% 90%;
+  --border: 213 15% 15%;
+  --input: 213 15% 12%;
+  --ring: 178 100% 49%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: 'Inter', 'SF Pro Display', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
 }
