@@ -34,7 +34,7 @@ const UserManagement = () => {
         return;
       }
 
-      setUsers(data || []);
+      setUsers((data || []) as Profile[]);
     } catch (error) {
       console.error('Error fetching users:', error);
       toast({

@@ -6,7 +6,7 @@ export const getUserProfile = async (userId: string): Promise<Profile | null> =>
   const { data, error } = await supabase
     .from('profiles')
     .select('*')
-    .eq('user_id', userId)
+    .eq('id', userId)
     .single();
 
   if (error) {
@@ -14,7 +14,7 @@ export const getUserProfile = async (userId: string): Promise<Profile | null> =>
     return null;
   }
 
-  return data;
+  return data as Profile;
 };
 
 export const updateUserRole = async (profileId: string, role: Profile['role']) => {

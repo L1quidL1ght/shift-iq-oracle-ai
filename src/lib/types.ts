@@ -1,7 +1,6 @@
 // Temporary type definitions while Supabase types update
 export interface Profile {
   id: string;
-  user_id: string;
   email: string;
   role: 'staff' | 'content_admin' | 'super_admin';
   created_at: string;

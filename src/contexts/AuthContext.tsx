@@ -5,7 +5,6 @@ import { supabase } from '@/integrations/supabase/client';
 
 interface UserProfile {
   id: string;
-  user_id: string;
   email: string;
   role: 'super_admin' | 'content_admin' | 'staff';
   created_at: string;
@@ -82,7 +81,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return;
       }
 
-      setProfile(data);
+      setProfile(data as UserProfile);
     } catch (error) {
       console.error('Error fetching user profile:', error);
     }
