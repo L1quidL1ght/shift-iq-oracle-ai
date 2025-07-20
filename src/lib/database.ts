@@ -1,11 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
-import type { Tables } from '@/integrations/supabase/types';
-
-type Profile = Tables<'profiles'>;
-type Document = Tables<'documents'>;
-type Beer = Tables<'beers'>;
-type ChatSession = Tables<'chat_sessions'>;
-type ChatMessage = Tables<'chat_messages'>;
+import type { Profile, Document, Beer, ChatSession, ChatMessage } from './types';
 
 // Profile functions
 export const getUserProfile = async (userId: string): Promise<Profile | null> => {

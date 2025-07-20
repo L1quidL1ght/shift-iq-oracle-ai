@@ -8,9 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Users, Shield, UserCog, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import type { Tables } from '@/integrations/supabase/types';
-
-type Profile = Tables<'profiles'>;
+import type { Profile } from '@/lib/types';
 import { updateUserRole } from '@/lib/database';
 
 const UserManagement = () => {

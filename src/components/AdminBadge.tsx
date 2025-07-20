@@ -2,9 +2,7 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Shield, Crown } from 'lucide-react';
-import type { Tables } from '@/integrations/supabase/types';
-
-type Profile = Tables<'profiles'>;
+import type { Profile } from '@/lib/types';
 
 interface AdminBadgeProps {
   role: Profile['role'];

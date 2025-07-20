@@ -29,9 +29,7 @@ import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import type { Tables } from "@/integrations/supabase/types";
-
-type Document = Tables<'documents'>;
+import type { Document } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 
 const CATEGORIES = ["POS", "Kitchen", "HR", "Beer", "Cocktails", "Service"];
