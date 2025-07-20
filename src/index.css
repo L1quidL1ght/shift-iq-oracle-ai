@@ -25,7 +25,7 @@
     --ring: 178 100% 49%;
     --radius: 0.75rem;
   }
-
+  
   .dark {
     --background: 213 15% 6%;
     --foreground: 180 100% 90%;
@@ -47,9 +47,7 @@
     --input: 213 15% 12%;
     --ring: 178 100% 49%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
@@ -66,16 +64,4 @@
   .transition-smooth {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-
-  .typing-dots::after {
-    content: '';
-    animation: typing-dots 1.5s infinite;
-  }
-}
-
-@keyframes typing-dots {
-  0%, 20% { content: ''; }
-  25% { content: '.'; }
-  50% { content: '..'; }
-  75% { content: '...'; }
 }
