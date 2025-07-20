@@ -5,9 +5,11 @@ import { supabase } from '@/lib/supabase';
 
 interface UserProfile {
   id: string;
+  user_id: string;
   email: string;
-  role: 'admin' | 'user';
-  full_name?: string;
+  role: 'super_admin' | 'content_admin' | 'staff';
+  created_at: string;
+  updated_at: string;
 }
 
 interface AuthContextType {
@@ -70,9 +72,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const fetchUserProfile = async (userId: string) => {
     try {
       const { data, error } = await supabase
-        .from('user_profiles')
+        .from('profiles')
         .select('*')
-        .eq('id', userId)
+        .eq('user_id', userId)
         .single();
 
       if (error) {
@@ -105,23 +107,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       },
     });
 
-    if (!error && data.user) {
-      // Create user profile
-      const { error: profileError } = await supabase
-        .from('user_profiles')
-        .insert([
-          {
-            id: data.user.id,
-            email: data.user.email,
-            full_name: fullName,
-            role: 'user', // Default role
-          },
-        ]);
-
-      if (profileError) {
-        console.error('Error creating user profile:', profileError);
-      }
-    }
+    // Profile will be created automatically by the database trigger
 
     return { error };
   };
@@ -140,7 +126,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { error };
   };
 
-  const isAdmin = profile?.role === 'admin';
+  const isAdmin = profile?.role === 'super_admin' || profile?.role === 'content_admin';
 
   const value = {
     user,

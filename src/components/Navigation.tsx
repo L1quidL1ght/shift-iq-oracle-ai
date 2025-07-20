@@ -71,7 +71,7 @@ const Navigation = () => {
                 <div className="flex items-center gap-2 px-3 py-2 text-sm">
                   <User className="w-4 h-4" />
                   <span className="text-muted-foreground">
-                    {profile?.full_name || user.email}
+                    {user.email}
                   </span>
                   {isAdmin && (
                     <span className="text-xs bg-primary text-primary-foreground px-1.5 py-0.5 rounded">
@@ -154,7 +154,7 @@ const Navigation = () => {
                         <User className="w-5 h-5" />
                         <div className="flex-1">
                           <span className="font-medium text-foreground block">
-                            {profile?.full_name || user.email}
+                            {user.email}
                           </span>
                           {isAdmin && (
                             <span className="text-xs bg-primary text-primary-foreground px-1.5 py-0.5 rounded">
