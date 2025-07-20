@@ -78,23 +78,21 @@ const Chat = () => {
                     </Card>
                   </div>
                 </div>)}
-              
-              {isTyping && <div className="flex justify-start">
-                  <div className="flex items-start gap-3 max-w-[80%]">
-                    <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-                      <Bot className="w-4 h-4" />
-                    </div>
-                    <Card className="p-4 bg-secondary/20">
-                      <p className="text-foreground typing-dots">ShiftIQ is thinking</p>
-                    </Card>
-                  </div>
-                </div>}
             </div>}
         </div>
 
         {/* Bottom Section */}
         <div className="w-full px-4 pb-6">
           <div className="max-w-2xl mx-auto">
+            {/* Typing Indicator */}
+            {isTyping && (
+              <div className="mb-3 flex justify-center">
+                <div className="px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full">
+                  <p className="text-orange-500/80 text-sm typing-dots">ShiftIQ is thinking…</p>
+                </div>
+              </div>
+            )}
+
             {/* Input Bar */}
             <div className="mb-4">
               <form onSubmit={handleSubmit} className="relative">
@@ -108,6 +106,28 @@ const Chat = () => {
                   </Button>
                 </div>
               </form>
+            </div>
+
+            {/* Category Buttons */}
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Button variant="outline" size="sm" className="text-muted-foreground hover:text-foreground">
+                POS
+              </Button>
+              <Button variant="outline" size="sm" className="text-muted-foreground hover:text-foreground">
+                FOH
+              </Button>
+              <Button variant="outline" size="sm" className="text-muted-foreground hover:text-foreground">
+                BOH
+              </Button>
+              <Button variant="outline" size="sm" className="text-muted-foreground hover:text-foreground">
+                HR
+              </Button>
+              <Button variant="outline" size="sm" className="text-muted-foreground hover:text-foreground">
+                Menu
+              </Button>
+              <Button variant="outline" size="sm" className="text-muted-foreground hover:text-foreground">
+                Square
+              </Button>
             </div>
 
             {/* Suggested Actions */}
