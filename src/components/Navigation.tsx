@@ -1,21 +1,32 @@
+
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { MessageCircle, Upload, LogIn, History, Settings, Menu, X, Bot } from "lucide-react";
+import { MessageCircle, Upload, LogIn, LogOut, History, Settings, Menu, X, Bot, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, profile, isAdmin, signOut } = useAuth();
 
   const navItems = [
     { to: "/chat", icon: MessageCircle, label: "Chat" },
-    { to: "/upload", icon: Upload, label: "Upload", adminOnly: true },
-    { to: "/login", icon: LogIn, label: "Login" },
-    { to: "/history", icon: History, label: "History" },
-    { to: "/settings", icon: Settings, label: "Settings", adminOnly: true },
+    ...(isAdmin ? [
+      { to: "/upload", icon: Upload, label: "Upload", adminOnly: true },
+      { to: "/settings", icon: Settings, label: "Settings", adminOnly: true },
+    ] : []),
+    ...(user ? [
+      { to: "/history", icon: History, label: "History" },
+    ] : []),
   ];
 
   const closeSheet = () => setIsOpen(false);
+
+  const handleSignOut = async () => {
+    await signOut();
+    closeSheet();
+  };
 
   return (
     <nav className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
@@ -53,6 +64,41 @@ const Navigation = () => {
                 )}
               </NavLink>
             ))}
+            
+            {/* Auth Button */}
+            {user ? (
+              <div className="flex items-center gap-2 ml-2">
+                <div className="flex items-center gap-2 px-3 py-2 text-sm">
+                  <User className="w-4 h-4" />
+                  <span className="text-muted-foreground">
+                    {profile?.full_name || user.email}
+                  </span>
+                  {isAdmin && (
+                    <span className="text-xs bg-primary text-primary-foreground px-1.5 py-0.5 rounded">
+                      Admin
+                    </span>
+                  )}
+                </div>
+                <Button variant="ghost" size="sm" onClick={handleSignOut}>
+                  <LogOut className="w-4 h-4" />
+                  <span className="ml-2">Sign Out</span>
+                </Button>
+              </div>
+            ) : (
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 rounded-lg transition-smooth ${
+                    isActive
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  }`
+                }
+              >
+                <LogIn className="w-4 h-4" />
+                <span className="text-sm font-medium">Login</span>
+              </NavLink>
+            )}
           </div>
 
           {/* Mobile Navigation */}
@@ -100,6 +146,48 @@ const Navigation = () => {
                       )}
                     </NavLink>
                   ))}
+                  
+                  {/* Mobile Auth */}
+                  {user ? (
+                    <>
+                      <div className="flex items-center gap-2 px-3 py-3 border-t border-border mt-4 pt-4">
+                        <User className="w-5 h-5" />
+                        <div className="flex-1">
+                          <span className="font-medium text-foreground block">
+                            {profile?.full_name || user.email}
+                          </span>
+                          {isAdmin && (
+                            <span className="text-xs bg-primary text-primary-foreground px-1.5 py-0.5 rounded">
+                              Admin
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <Button 
+                        variant="ghost" 
+                        className="w-full justify-start px-3 py-3 h-auto"
+                        onClick={handleSignOut}
+                      >
+                        <LogOut className="w-5 h-5" />
+                        <span className="ml-3">Sign Out</span>
+                      </Button>
+                    </>
+                  ) : (
+                    <NavLink
+                      to="/login"
+                      onClick={closeSheet}
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3 py-3 rounded-lg transition-smooth w-full ${
+                          isActive
+                            ? "bg-primary text-primary-foreground"
+                            : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                        }`
+                      }
+                    >
+                      <LogIn className="w-5 h-5" />
+                      <span className="font-medium">Login</span>
+                    </NavLink>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>

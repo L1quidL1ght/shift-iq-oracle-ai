@@ -1,34 +1,103 @@
+
 import { useState } from "react";
-import { LogIn, Mail, Lock, User } from "lucide-react";
+import { Navigate } from "react-router-dom";
+import { LogIn, Mail, Lock, User, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Navigation } from "@/components/Navigation";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
+  const { user, signIn, signUp, sendMagicLink, loading } = useAuth();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [signupForm, setSignupForm] = useState({ name: '', email: '', password: '' });
   const [magicLinkEmail, setMagicLinkEmail] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  // Redirect if already logged in
+  if (user && !loading) {
+    return <Navigate to="/chat" replace />;
+  }
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login:', loginForm);
+    setIsLoading(true);
+    
+    const { error } = await signIn(loginForm.email, loginForm.password);
+    
+    if (error) {
+      toast({
+        title: "Login Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Welcome back!",
+        description: "You have been logged in successfully.",
+      });
+    }
+    
+    setIsLoading(false);
   };
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle signup logic here
-    console.log('Signup:', signupForm);
+    setIsLoading(true);
+    
+    const { error } = await signUp(signupForm.email, signupForm.password, signupForm.name);
+    
+    if (error) {
+      toast({
+        title: "Signup Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Account Created!",
+        description: "Please check your email to verify your account.",
+      });
+    }
+    
+    setIsLoading(false);
   };
 
-  const handleMagicLink = (e: React.FormEvent) => {
+  const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle magic link logic here
-    console.log('Magic link for:', magicLinkEmail);
+    setIsLoading(true);
+    
+    const { error } = await sendMagicLink(magicLinkEmail);
+    
+    if (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Magic Link Sent!",
+        description: "Check your email for the login link.",
+      });
+    }
+    
+    setIsLoading(false);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -68,6 +137,7 @@ const Login = () => {
                         placeholder="Enter your email"
                         className="pl-10"
                         required
+                        disabled={isLoading}
                       />
                     </div>
                   </div>
@@ -84,12 +154,20 @@ const Login = () => {
                         placeholder="Enter your password"
                         className="pl-10"
                         required
+                        disabled={isLoading}
                       />
                     </div>
                   </div>
                   
-                  <Button type="submit" className="w-full glow-primary">
-                    Sign In
+                  <Button type="submit" className="w-full glow-primary" disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        Signing In...
+                      </>
+                    ) : (
+                      "Sign In"
+                    )}
                   </Button>
                 </form>
               </TabsContent>
@@ -108,6 +186,7 @@ const Login = () => {
                         placeholder="Enter your full name"
                         className="pl-10"
                         required
+                        disabled={isLoading}
                       />
                     </div>
                   </div>
@@ -124,6 +203,7 @@ const Login = () => {
                         placeholder="Enter your email"
                         className="pl-10"
                         required
+                        disabled={isLoading}
                       />
                     </div>
                   </div>
@@ -140,12 +220,20 @@ const Login = () => {
                         placeholder="Create a password"
                         className="pl-10"
                         required
+                        disabled={isLoading}
                       />
                     </div>
                   </div>
                   
-                  <Button type="submit" className="w-full glow-primary">
-                    Create Account
+                  <Button type="submit" className="w-full glow-primary" disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        Creating Account...
+                      </>
+                    ) : (
+                      "Create Account"
+                    )}
                   </Button>
                 </form>
               </TabsContent>
@@ -164,12 +252,20 @@ const Login = () => {
                         placeholder="Enter your email"
                         className="pl-10"
                         required
+                        disabled={isLoading}
                       />
                     </div>
                   </div>
                   
-                  <Button type="submit" className="w-full glow-primary">
-                    Send Magic Link
+                  <Button type="submit" className="w-full glow-primary" disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        Sending Link...
+                      </>
+                    ) : (
+                      "Send Magic Link"
+                    )}
                   </Button>
                   
                   <p className="text-sm text-muted-foreground text-center">
