@@ -200,3 +200,47 @@ export const setSystemSetting = async (key: string, value: string, description?:
     throw error;
   }
 };
+
+// Document Processing and Vector Search
+export const processDocument = async (documentId: string): Promise<boolean> => {
+  try {
+    const { data, error } = await supabase.functions.invoke('process-document', {
+      body: { documentId }
+    });
+
+    if (error) {
+      console.error('Error processing document:', error);
+      return false;
+    }
+
+    return data?.success || false;
+  } catch (error) {
+    console.error('Error calling process-document function:', error);
+    return false;
+  }
+};
+
+export const sendChatMessage = async (
+  message: string,
+  sessionId: string
+): Promise<{
+  response: string;
+  source: string;
+  sourceDocuments: any[];
+} | null> => {
+  try {
+    const { data, error } = await supabase.functions.invoke('chat', {
+      body: { message, sessionId }
+    });
+
+    if (error) {
+      console.error('Error sending chat message:', error);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error calling chat function:', error);
+    return null;
+  }
+};
