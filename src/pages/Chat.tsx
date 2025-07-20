@@ -148,6 +148,58 @@ const Chat = () => {
                   <span className="text-lg">•••</span>
                 </Button>
               </div>}
+
+            {/* Example Prompts */}
+            <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePromptClick("How do I 86 something?")}
+                className="text-left justify-start text-muted-foreground hover:text-foreground h-auto py-3 px-4"
+              >
+                How do I 86 something?
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePromptClick("What's our beer selection?")}
+                className="text-left justify-start text-muted-foreground hover:text-foreground h-auto py-3 px-4"
+              >
+                What's our beer selection?
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePromptClick("POS troubleshooting")}
+                className="text-left justify-start text-muted-foreground hover:text-foreground h-auto py-3 px-4"
+              >
+                POS troubleshooting
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePromptClick("Table rotation policy")}
+                className="text-left justify-start text-muted-foreground hover:text-foreground h-auto py-3 px-4"
+              >
+                Table rotation policy
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePromptClick("Cocktail recipes")}
+                className="text-left justify-start text-muted-foreground hover:text-foreground h-auto py-3 px-4"
+              >
+                Cocktail recipes
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePromptClick("Dress code")}
+                className="text-left justify-start text-muted-foreground hover:text-foreground h-auto py-3 px-4"
+              >
+                Dress code
+              </Button>
+            </div>
           </div>
         </div>
       </div>
