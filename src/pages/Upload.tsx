@@ -28,7 +28,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase, type Document } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
+import type { Tables } from "@/integrations/supabase/types";
+
+type Document = Tables<'documents'>;
 import { useToast } from "@/hooks/use-toast";
 
 const CATEGORIES = ["POS", "Kitchen", "HR", "Beer", "Cocktails", "Service"];

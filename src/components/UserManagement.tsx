@@ -7,7 +7,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Users, Shield, UserCog, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { supabase, type Profile } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
+import type { Tables } from '@/integrations/supabase/types';
+
+type Profile = Tables<'profiles'>;
 import { updateUserRole } from '@/lib/database';
 
 const UserManagement = () => {
