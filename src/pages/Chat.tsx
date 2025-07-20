@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, Bot, User, Plus, Mic } from "lucide-react";
+import { Send, Bot, User, Plus, Mic, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Navigation } from "@/components/Navigation";
@@ -139,7 +139,7 @@ const Chat = () => {
                       disabled={!inputValue.trim() || isTyping}
                       className="mr-4 h-10 w-10 bg-primary hover:bg-primary/90 text-white disabled:opacity-50 rounded-lg transition-all duration-200 shadow-lg shadow-primary/25 hover:shadow-primary/40"
                     >
-                      <Send className="w-5 h-5" />
+                      <ArrowRight className="w-5 h-5 text-white/70" />
                     </Button>
                   </div>
                 </form>
