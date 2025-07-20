@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Shield, User, Mail, Lock, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { createSuperAdmin } from '@/utils/createSuperAdmin';
 
 const AdminSetup = () => {
   const { signUp } = useAuth();
@@ -72,6 +73,35 @@ const AdminSetup = () => {
     setIsCreating(false);
   };
 
+  const handleCreateSuperAdmin = async () => {
+    setIsCreating(true);
+    
+    try {
+      const result = await createSuperAdmin();
+      
+      if (result.success) {
+        toast({
+          title: "Super Admin Created!",
+          description: result.message,
+        });
+      } else {
+        toast({
+          title: "Super Admin Creation Failed",
+          description: result.error,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    }
+    
+    setIsCreating(false);
+  };
+
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader className="text-center">
@@ -85,11 +115,27 @@ const AdminSetup = () => {
         <Alert className="mb-6">
           <Shield className="w-4 h-4" />
           <AlertDescription>
-            After creating this account, you'll need to manually set the role to 'super_admin' or 'content_admin' in your Supabase dashboard under the profiles table.
+            Click the button below to create a super admin account with pre-configured credentials.
           </AlertDescription>
         </Alert>
 
-        <form onSubmit={handleCreateAdmin} className="space-y-4">
+        <div className="space-y-4">
+          <Button onClick={handleCreateSuperAdmin} className="w-full" disabled={isCreating}>
+            {isCreating ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                Creating Super Admin...
+              </>
+            ) : (
+              <>
+                <Shield className="w-4 h-4 mr-2" />
+                Create Super Admin Account
+              </>
+            )}
+          </Button>
+        </div>
+
+        <form onSubmit={handleCreateAdmin} className="space-y-4 mt-8">
           <div>
             <Label htmlFor="admin-name">Full Name</Label>
             <div className="relative">
