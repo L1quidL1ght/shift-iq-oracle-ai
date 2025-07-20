@@ -98,7 +98,6 @@ All colors MUST be HSL.
     transition: var(--transition-smooth);
   }
   
-  
   /* Pulsing animation for send button */
   .pulse-glow {
     animation: pulse-glow 2s infinite;
