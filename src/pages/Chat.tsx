@@ -62,7 +62,7 @@ const Chat = () => {
               <div className="text-center space-y-1 mb-8">
                 <h1 className="text-3xl font-normal text-foreground">Welcome Back</h1>
                 <h2 className="text-3xl font-normal text-foreground">How can I help with your shift?</h2>
-                <p className="text-muted-foreground mt-6 text-base">Im available 24/7 for you, ask me anything.</p>
+                
               </div>
             </div> : <div className="w-full max-w-2xl space-y-4 px-4">
               {messages.map(message => <div key={message.id} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}>
