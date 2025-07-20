@@ -5,10 +5,10 @@ export const createSuperAdmin = async () => {
     // Step 1: Create the user account
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: 'lorenzo@herouei.com',
-      password: 'Eleven11////',
+      password: 'ShiftIQ2024!',
       options: {
         data: {
-          full_name: 'Lorenzo',
+          full_name: 'Super Admin',
         },
       },
     });
@@ -23,11 +23,11 @@ export const createSuperAdmin = async () => {
     }
 
     // Step 2: Update the user's role to super_admin
-    // Note: This requires the service role key since we're updating another user's profile
+    // Use the user's ID to update the profile
     const { error: roleError } = await supabase
       .from('profiles')
       .update({ role: 'super_admin' })
-      .eq('user_id', authData.user.id);
+      .eq('id', authData.user.id);
 
     if (roleError) {
       console.error('Error updating role:', roleError);
