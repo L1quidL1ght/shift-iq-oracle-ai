@@ -18,6 +18,9 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'sans': ['Inter', 'SF Pro Display', 'Segoe UI', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,7 +64,11 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Chat-specific colors for the new design
+				'user-message': '218 89% 61%', // #3B82F6 - Light blue for user messages
+				'assistant-message': '210 11% 15%', // #1F2937 - Dark gray for assistant messages
+			}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
