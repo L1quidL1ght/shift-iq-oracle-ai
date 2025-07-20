@@ -149,40 +149,29 @@ export type Database = {
           title?: string
           updated_at?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "documents_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       profiles: {
         Row: {
-          created_at: string
-          email: string
+          created_at: string | null
+          email: string | null
           id: string
-          role: Database["public"]["Enums"]["user_role"]
-          updated_at: string
-          user_id: string
+          role: string | null
+          updated_at: string | null
         }
         Insert: {
-          created_at?: string
-          email: string
-          id?: string
-          role?: Database["public"]["Enums"]["user_role"]
-          updated_at?: string
-          user_id: string
+          created_at?: string | null
+          email?: string | null
+          id: string
+          role?: string | null
+          updated_at?: string | null
         }
         Update: {
-          created_at?: string
-          email?: string
+          created_at?: string | null
+          email?: string | null
           id?: string
-          role?: Database["public"]["Enums"]["user_role"]
-          updated_at?: string
-          user_id?: string
+          role?: string | null
+          updated_at?: string | null
         }
         Relationships: []
       }
